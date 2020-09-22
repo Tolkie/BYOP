@@ -1,0 +1,22 @@
+#!ipxe
+
+dhcp
+set serverip 192.168.100.1
+menu Please choose an operating system to boot
+	item normal	Install Proxmox
+	item shell	iPXE shell
+	item exit	Exit to BIOS
+
+choose --default normal --timeout 10000 option && goto ${option}
+
+:normal
+  kernel http://192.168.100.1/proxmox/6.1/linux26 vga=791 video=vesafb:ywrap,mtrr ramdisk_size=16777216 rw quiet splash=silent initrd=initrd.iso.img
+  initrd http://192.168.100.1/proxmox/6.1/initrd.iso.img
+  boot
+
+:shell
+  shell
+
+:exit
+  exit
+
