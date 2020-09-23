@@ -18,6 +18,7 @@ const registerTask = async function (task) {
   } else {
     task.ip = null;
     task.status = "pending";
+    task.containerId = null;
     return TaskRepository.registerTask(task);
   }
 };
@@ -71,6 +72,9 @@ const updateTask = async function (updatedTask, id) {
     }
     if (updatedTask.status) {
       task.status = updatedTask.status;
+    }
+    if (updatedTask.containerId) {
+      task.containerId = updatedTask.containerId;
     }
     return await TaskRepository.updateTask(task);
   }

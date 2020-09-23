@@ -16,6 +16,10 @@ var TaskSchema = new Schema(
       type: String,
       required: [false],
     },
+    containerId: {
+      type: String,
+      required: [false],
+    },
   },
   { timestamps: true, collection: "tasks" }
 );
