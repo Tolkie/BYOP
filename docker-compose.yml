@@ -1,0 +1,64 @@
+version: "3.5"
+
+services:
+  api:
+    build:
+      context: ./api
+      args:
+        PORT: ${PORT}
+    container_name: "api-byop"
+    restart: always
+    environment:
+      - HOSTNAME
+      - PORT
+      - SECRET
+      - SALT_ROUNDS
+      - MONGODB_SERVER
+      - MONGODB_NAME
+      - MONGODB_USERNAME
+      - MONGODB_PASSWORD
+      - MONGODB_PORT
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - ./api:/usr/src/app/
+    depends_on:
+      - "db"
+
+  db:
+    build:
+      context: ./db
+      args:
+        MONGODB_PORT: ${MONGODB_PORT}
+    container_name: "db-byop"
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGODB_NAME}
+      MONGO_INITDB_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_PASSWORD: ${MONGODB_PASSWORD}
+    ports:
+      - "${MONGODB_PORT}:${MONGODB_PORT}"
+    volumes:
+      - db-data-byop:/data/db
+      - ./db/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    command: --quiet
+
+  mongo-express:
+    image: mongo-express
+    container_name: "mongo-express-byop"
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_PORT: ${MONGODB_PORT}
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_ROOT_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_ROOT_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: ${MONGODB_SERVER}
+    ports:
+      - "${MONGO_EXPRESS_PORT}:${MONGO_EXPRESS_PORT}"
+    depends_on:
+      - "db"
+
+volumes:
+  db-data-byop:
+    driver: local
