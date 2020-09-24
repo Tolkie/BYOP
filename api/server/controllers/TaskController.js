@@ -31,7 +31,6 @@ exports.getTask = async function (req, res, next) {
 
 exports.getTasks = async function (req, res, next) {
   try {
-    console.log(req.query);
     var tasks = await TaskBusiness.getTasks(req.query);
 
     res.status(200).json({
