@@ -33,8 +33,8 @@ const getTask = async function (id) {
   }
 };
 
-const getTasks = async function () {
-  var tasks = await TaskRepository.getTasks();
+const getTasks = async function (filters) {
+  var tasks = await TaskRepository.getTasks(filters);
 
   if (!tasks) {
     throw new ApiError(400, "No tasks found");

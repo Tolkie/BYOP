@@ -21,8 +21,8 @@ const getTaskByIp = async function (ip) {
   return await TaskModel.findOne({ ip: ip });
 };
 
-const getTasks = async function () {
-  return await TaskModel.find();
+const getTasks = async function (filters) {
+  return await TaskModel.find(filters);
 };
 
 const updateTask = async function (task) {
