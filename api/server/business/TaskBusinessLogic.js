@@ -3,7 +3,6 @@ const TaskRepository = require("../repositories/TaskRepository");
 
 const registerTask = async function (task) {
   var error = task.validateSync();
-  console.log(await TaskRepository.getTaskByUrl(task.url));
 
   if (error != null) {
     var array = [];
@@ -55,15 +54,26 @@ const getLastTask = async function () {
 
 const deleteTask = async function (id) {
   var task = await TaskRepository.getTaskById(id);
+
   if (!task) {
     throw new ApiError(400, "Task with this id doesn't exist");
   } else {
-    return await TaskRepository.deleteTask(id);
+    if (task.status != "awaitingDeletion") {
+      task.status = "awaitingDeletion";
+      updateTask(task, task._id);
+      return "Task awaiting for deletion";
+    }
+    await TaskRepository.deleteTask(id);
+    return "Task deleted successfully";
   }
 };
 
 const updateTask = async function (updatedTask, id) {
   var task = await TaskRepository.getTaskById(id);
+
+  console.log(updatedTask);
+  console.log(id);
+
   if (!task) {
     throw new ApiError(400, "Task with this id doesn't exist");
   } else {
@@ -71,6 +81,10 @@ const updateTask = async function (updatedTask, id) {
       task.ip = updatedTask.ip;
     }
     if (updatedTask.status) {
+      task.status = updatedTask.status;
+      if (task.status == "deleted") {
+        return await TaskRepository.deleteTask(id);
+      }
       task.status = updatedTask.status;
     }
     if (updatedTask.containerId) {
