@@ -20,8 +20,6 @@ services:
       - MONGODB_PORT
     ports:
       - "${PORT}:${PORT}"
-    volumes:
-      - ./api:/usr/src/app/
     depends_on:
       - "db"
 
