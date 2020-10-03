@@ -23,7 +23,7 @@ const registerTask = async function (task) {
 };
 
 const getTask = async function (id) {
-  var task = await TaskRepository.getTask(id);
+  var task = await TaskRepository.getTaskById(id);
 
   if (!task) {
     throw new ApiError(400, "Task with this id doesn't exist");
