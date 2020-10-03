@@ -31,7 +31,7 @@ exports.getTask = async function (req, res, next) {
 
 exports.getTasks = async function (req, res, next) {
   try {
-    var tasks = await TaskBusiness.getTasks();
+    var tasks = await TaskBusiness.getTasks(req.query);
 
     res.status(200).json({
       status: 200,
@@ -75,11 +75,11 @@ exports.putTask = async function (req, res, next) {
 
 exports.deleteTask = async function (req, res, next) {
   try {
-    await TaskBusiness.deleteTask(req.params.id);
+    var message = await TaskBusiness.deleteTask(req.params.id);
 
     res.status(200).json({
       statusCode: 200,
-      message: "Deleted successfully",
+      message: message,
     });
   } catch (err) {
     next(err);
