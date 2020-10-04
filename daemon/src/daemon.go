@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	baseURL = "http://localhost:5000/byop"
+	baseURL = "https://byop.maolmordha.eu/byop"
 )
 
 type Daemon struct {
