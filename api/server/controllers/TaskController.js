@@ -61,12 +61,11 @@ exports.registerTask = async function (req, res, next) {
 exports.putTask = async function (req, res, next) {
   try {
     var updatedTask = new TaskModel(req.body);
-    var task = await TaskBusiness.updateTask(updatedTask, req.params.id);
+    await TaskBusiness.updateTask(updatedTask, req.params.id);
 
     res.status(200).json({
       statusCode: 200,
       message: "Task updated successfully",
-      task: task,
     });
   } catch (err) {
     next(err);

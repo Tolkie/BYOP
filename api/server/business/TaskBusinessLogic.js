@@ -17,7 +17,6 @@ const registerTask = async function (task) {
   } else {
     task.ip = null;
     task.status = "pending";
-    task.containerId = null;
     return TaskRepository.registerTask(task);
   }
 };
@@ -61,7 +60,7 @@ const deleteTask = async function (id) {
     if (task.status != "awaitingDeletion") {
       task.status = "awaitingDeletion";
       updateTask(task, task._id);
-      return "Task awaiting for deletion";
+      return "Task awaiting deletion";
     }
     await TaskRepository.deleteTask(id);
     return "Task deleted successfully";
