@@ -67,7 +67,9 @@ func (d *Daemon) CreateContainer(ctx context.Context, w *sync.WaitGroup, url str
 
 	resp, err := d.DockerClient.ContainerCreate(ctx, &container.Config{
 		Image: url,
-	}, nil, nil, nil, id)
+	}, &container.HostConfig{
+		PublishAllPorts: true,
+	}, nil, nil, id)
 	if err != nil {
 		fmt.Println("can't create container " + id)
 		return
