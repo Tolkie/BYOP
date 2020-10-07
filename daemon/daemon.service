@@ -1,0 +1,11 @@
+[Unit]
+Description=Start the byop daemon
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/byop-daemon
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
