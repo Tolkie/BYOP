@@ -11,6 +11,7 @@ import (
 	"net"
 	"net/http"
 	"sync"
+	"time"
 )
 
 const (
@@ -73,6 +74,7 @@ func (d *Daemon) LaunchTasks() error {
 			go d.CreateContainer(ctx, w, c.URL, c.ID)
 		}
 		w.Wait()
+		time.Sleep(time.Second * 5)
 	}
 }
 
@@ -99,6 +101,7 @@ func (d *Daemon) DeleteTasks() error {
 			go d.DeleteContainer(ctx, w, c.ID)
 		}
 		w.Wait()
+		time.Sleep(time.Second * 5)
 	}
 }
 

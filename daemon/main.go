@@ -22,8 +22,8 @@ func main() {
 	containers := map[string]string{}
 
 	d := &src.Daemon{
-		DockerClient: dockerClient,
-		HttpClient:   httpClient,
+		DockerClient:   dockerClient,
+		HttpClient:     httpClient,
 		ContainerNames: containers,
 	}
 
